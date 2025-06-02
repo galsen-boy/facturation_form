@@ -16,6 +16,38 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { fr } from 'date-fns/locale';
 import ContratPDF from './ContratPDF';
 
+interface FormData {
+  nom: string;
+  prenom: string;
+  coordonnees: string;
+  dateNaissance: Date | null;
+  lieuNaissance: string;
+  adresse: string;
+  profession: string;
+  numeroCNI: string;
+  numeroPermis: string;
+  numeroImmatriculation: string;
+  marqueVehicule: string;
+  typeVehicule: string;
+  dateDepart: Date | null;
+  heureDepart: Date | null;
+  dateRetour: Date | null;
+  heureRetour: Date | null;
+  lieuLivraison: string;
+  lieuRecuperation: string;
+  destination: string;
+  kmDepart: number;
+  kmArrivee: number;
+  prixJour: number;
+  prixKm: number;
+  conducteurAdditionnel: string;
+  coordonneesConducteur: string;
+  modePaiement: string;
+  netAPayer: number;
+  caution: number;
+  carburant: string;
+}
+
 const validationSchema = yup.object({
   nom: yup.string().required('Le nom est requis'),
   prenom: yup.string().required('Le prénom est requis'),
@@ -31,7 +63,13 @@ const validationSchema = yup.object({
   typeVehicule: yup.string().required('Le type de véhicule est requis'),
   dateDepart: yup.date().required('La date de départ est requise'),
   heureDepart: yup.date().required('L\'heure de départ est requise'),
-  dateRetour: yup.date().required('La date de retour est requise'),
+  dateRetour: yup.date()
+    .required('La date de retour est requise')
+    .test('date-retour', 'La date de retour doit être ultérieure à la date de départ', function(value) {
+      const { dateDepart } = this.parent;
+      if (!dateDepart || !value) return true;
+      return value > dateDepart;
+    }),
   heureRetour: yup.date().required('L\'heure de retour est requise'),
   lieuLivraison: yup.string().required('Le lieu de livraison est requis'),
   lieuRecuperation: yup.string().required('Le lieu de récupération est requis'),
@@ -50,7 +88,7 @@ const validationSchema = yup.object({
 
 const FacturationForm = () => {
   const [showPDF, setShowPDF] = React.useState(false);
-  const [formData, setFormData] = React.useState(null);
+  const [formData, setFormData] = React.useState<FormData | null>(null);
 
   const formik = useFormik({
     initialValues: {
@@ -73,15 +111,15 @@ const FacturationForm = () => {
       lieuLivraison: '',
       lieuRecuperation: '',
       destination: '',
-      kmDepart: '',
-      kmArrivee: '',
-      prixJour: '',
-      prixKm: '',
+      kmDepart: 0,
+      kmArrivee: 0,
+      prixJour: 0,
+      prixKm: 0,
       conducteurAdditionnel: '',
       coordonneesConducteur: '',
       modePaiement: '',
-      netAPayer: '',
-      caution: '',
+      netAPayer: 0,
+      caution: 0,
       carburant: '',
     },
     validationSchema: validationSchema,
@@ -93,7 +131,7 @@ const FacturationForm = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={fr}>
-      {showPDF ? (
+      {showPDF && formData ? (
         <ContratPDF formData={formData} />
       ) : (
         <form onSubmit={formik.handleSubmit}>
@@ -144,15 +182,14 @@ const FacturationForm = () => {
               <DatePicker
                 label="Date de naissance"
                 value={formik.values.dateNaissance}
-                onChange={(value) => formik.setFieldValue('dateNaissance', value)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    error={formik.touched.dateNaissance && Boolean(formik.errors.dateNaissance)}
-                    helperText={formik.touched.dateNaissance && formik.errors.dateNaissance}
-                  />
-                )}
+                onChange={(newValue: Date | null) => formik.setFieldValue('dateNaissance', newValue)}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    error: formik.touched.dateNaissance && Boolean(formik.errors.dateNaissance),
+                    helperText: formik.touched.dateNaissance && formik.errors.dateNaissance
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -276,60 +313,56 @@ const FacturationForm = () => {
               <DatePicker
                 label="Date de départ"
                 value={formik.values.dateDepart}
-                onChange={(value) => formik.setFieldValue('dateDepart', value)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    error={formik.touched.dateDepart && Boolean(formik.errors.dateDepart)}
-                    helperText={formik.touched.dateDepart && formik.errors.dateDepart}
-                  />
-                )}
+                onChange={(newValue: Date | null) => formik.setFieldValue('dateDepart', newValue)}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    error: formik.touched.dateDepart && Boolean(formik.errors.dateDepart),
+                    helperText: formik.touched.dateDepart && formik.errors.dateDepart
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TimePicker
                 label="Heure de départ"
                 value={formik.values.heureDepart}
-                onChange={(value) => formik.setFieldValue('heureDepart', value)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    error={formik.touched.heureDepart && Boolean(formik.errors.heureDepart)}
-                    helperText={formik.touched.heureDepart && formik.errors.heureDepart}
-                  />
-                )}
+                onChange={(newValue: Date | null) => formik.setFieldValue('heureDepart', newValue)}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    error: formik.touched.heureDepart && Boolean(formik.errors.heureDepart),
+                    helperText: formik.touched.heureDepart && formik.errors.heureDepart
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <DatePicker
                 label="Date de retour"
                 value={formik.values.dateRetour}
-                onChange={(value) => formik.setFieldValue('dateRetour', value)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    error={formik.touched.dateRetour && Boolean(formik.errors.dateRetour)}
-                    helperText={formik.touched.dateRetour && formik.errors.dateRetour}
-                  />
-                )}
+                onChange={(newValue: Date | null) => formik.setFieldValue('dateRetour', newValue)}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    error: formik.touched.dateRetour && Boolean(formik.errors.dateRetour),
+                    helperText: formik.touched.dateRetour && formik.errors.dateRetour
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TimePicker
                 label="Heure de retour"
                 value={formik.values.heureRetour}
-                onChange={(value) => formik.setFieldValue('heureRetour', value)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    error={formik.touched.heureRetour && Boolean(formik.errors.heureRetour)}
-                    helperText={formik.touched.heureRetour && formik.errors.heureRetour}
-                  />
-                )}
+                onChange={(newValue: Date | null) => formik.setFieldValue('heureRetour', newValue)}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    error: formik.touched.heureRetour && Boolean(formik.errors.heureRetour),
+                    helperText: formik.touched.heureRetour && formik.errors.heureRetour
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -478,6 +511,8 @@ const FacturationForm = () => {
                 helperText={formik.touched.modePaiement && formik.errors.modePaiement}
               >
                 <MenuItem value="especes">Espèces</MenuItem>
+                <MenuItem value="Wave">Wave</MenuItem>
+                <MenuItem value="Orange Money">Orange Money</MenuItem>
                 <MenuItem value="carte">Carte bancaire</MenuItem>
                 <MenuItem value="virement">Virement</MenuItem>
               </TextField>

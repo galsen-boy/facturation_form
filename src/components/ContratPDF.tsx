@@ -8,7 +8,7 @@ interface FormData {
   nom: string;
   prenom: string;
   coordonnees: string;
-  dateNaissance: Date;
+  dateNaissance: Date | null;
   lieuNaissance: string;
   adresse: string;
   profession: string;
@@ -17,10 +17,10 @@ interface FormData {
   numeroImmatriculation: string;
   marqueVehicule: string;
   typeVehicule: string;
-  dateDepart: Date;
-  heureDepart: Date;
-  dateRetour: Date;
-  heureRetour: Date;
+  dateDepart: Date | null;
+  heureDepart: Date | null;
+  dateRetour: Date | null;
+  heureRetour: Date | null;
   lieuLivraison: string;
   lieuRecuperation: string;
   destination: string;
@@ -28,8 +28,8 @@ interface FormData {
   kmArrivee: number;
   prixJour: number;
   prixKm: number;
-  conducteurAdditionnel?: string;
-  coordonneesConducteur?: string;
+  conducteurAdditionnel: string;
+  coordonneesConducteur: string;
   modePaiement: string;
   netAPayer: number;
   caution: number;
@@ -43,15 +43,18 @@ interface ContratPDFProps {
 const ContratPDF: React.FC<ContratPDFProps> = ({ formData }) => {
   const { toPDF, targetRef } = usePDF({ filename: 'contrat-location.pdf' });
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date: Date | null) => {
+    if (!date) return 'Non spécifié';
     return format(date, 'dd MMMM yyyy', { locale: fr });
   };
 
-  const formatTime = (date: Date) => {
+  const formatTime = (date: Date | null) => {
+    if (!date) return 'Non spécifié';
     return format(date, 'HH:mm', { locale: fr });
   };
 
   const calculateTotal = () => {
+    if (!formData.dateRetour || !formData.dateDepart) return 0;
     const days = Math.ceil(
       (formData.dateRetour.getTime() - formData.dateDepart.getTime()) / (1000 * 60 * 60 * 24)
     );

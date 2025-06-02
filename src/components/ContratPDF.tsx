@@ -1,6 +1,6 @@
 import React from 'react';
 import { usePDF } from 'react-to-pdf';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, Divider, Grid } from '@mui/material';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
@@ -41,7 +41,7 @@ interface ContratPDFProps {
 }
 
 const ContratPDF: React.FC<ContratPDFProps> = ({ formData }) => {
-  const { toPDF, targetRef } = usePDF({ filename: 'contrat-location.pdf' });
+  const { toPDF, targetRef } = usePDF({ filename: `${formData.prenom} ${formData.nom} - Contrat de location.pdf` });
 
   const formatDate = (date: Date | null) => {
     if (!date) return 'Non spécifié';
@@ -64,86 +64,310 @@ const ContratPDF: React.FC<ContratPDFProps> = ({ formData }) => {
 
   return (
     <Box sx={{ p: 4 }}>
-      <Box ref={targetRef} sx={{ p: 4, backgroundColor: 'white' }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          Contrat de Location de Véhicule
-        </Typography>
+      <Box 
+        ref={targetRef} 
+        sx={{ 
+          p: 3, 
+          backgroundColor: 'white',
+          maxWidth: '800px',
+          margin: '0 auto',
+          boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+          borderRadius: '8px',
+          fontSize: '0.9rem'
+        }}
+      >
+        {/* En-tête avec logo */}
+        <Box sx={{ textAlign: 'center', mb: 2 }}>
+          <img 
+            src="/assets/logo.jpg" 
+            alt="Logo" 
+            style={{ 
+              maxWidth: '150px',
+              marginBottom: '10px'
+            }} 
+          />
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              fontWeight: 'bold',
+              color: '#1a237e',
+              mb: 1,
+              fontSize: '1.5rem'
+            }}
+          >
+            Contrat de Location de Véhicule
+          </Typography>
+          <Typography variant="subtitle2" sx={{ color: '#666', fontSize: '0.8rem' }}>
+            RC: SN-DKR-2017-A-10766 ---- NINEA: 006358859
+          </Typography>
+          <Typography variant="subtitle2" sx={{ color: '#666', fontSize: '0.8rem' }}>
+            Tel: +221 33 827 17 66 // 77 264 06 02 // 77 731 03 03
+          </Typography>
+        </Box>
 
-        <Typography variant="h6" gutterBottom>
-          Informations du locataire
-        </Typography>
-        <Typography>
-          Nom: {formData.nom} {formData.prenom}
-        </Typography>
-        <Typography>Coordonnées: {formData.coordonnees}</Typography>
-        <Typography>
-          Date de naissance: {formatDate(formData.dateNaissance)} à {formData.lieuNaissance}
-        </Typography>
-        <Typography>Adresse: {formData.adresse}</Typography>
-        <Typography>Profession: {formData.profession}</Typography>
+        <Divider sx={{ mb: 2 }} />
 
-        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-          Documents
-        </Typography>
-        <Typography>Numéro CNI: {formData.numeroCNI}</Typography>
-        <Typography>Numéro de permis: {formData.numeroPermis}</Typography>
+        {/* Informations du locataire */}
+        <Box sx={{ mb: 2 }}>
+          <Typography 
+            variant="h6" 
+            sx={{ 
+              color: '#1a237e',
+              borderBottom: '2px solid #1a237e',
+              pb: 0.5,
+              mb: 1,
+              fontSize: '1.1rem'
+            }}
+          >
+            Informations du locataire
+          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Nom complet:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.prenom} {formData.nom}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Coordonnées:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.coordonnees}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Date et lieu de naissance:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formatDate(formData.dateNaissance)} à {formData.lieuNaissance}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Adresse:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.adresse}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Profession:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.profession}</Typography>
+            </Grid>
+          </Grid>
+        </Box>
 
-        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-          Véhicule
-        </Typography>
-        <Typography>Numéro d'immatriculation: {formData.numeroImmatriculation}</Typography>
-        <Typography>Marque: {formData.marqueVehicule}</Typography>
-        <Typography>Type: {formData.typeVehicule}</Typography>
+        {/* Documents */}
+        <Box sx={{ mb: 2 }}>
+          <Typography 
+            variant="h6" 
+            sx={{ 
+              color: '#1a237e',
+              borderBottom: '2px solid #1a237e',
+              pb: 0.5,
+              mb: 1,
+              fontSize: '1.1rem'
+            }}
+          >
+            Documents
+          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Numéro CNI:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.numeroCNI}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Numéro de permis:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.numeroPermis}</Typography>
+            </Grid>
+          </Grid>
+        </Box>
 
-        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-          Détails de la location
-        </Typography>
-        <Typography>
-          Date de départ: {formatDate(formData.dateDepart)} à {formatTime(formData.heureDepart)}
-        </Typography>
-        <Typography>
-          Date de retour: {formatDate(formData.dateRetour)} à {formatTime(formData.heureRetour)}
-        </Typography>
-        <Typography>Lieu de livraison: {formData.lieuLivraison}</Typography>
-        <Typography>Lieu de récupération: {formData.lieuRecuperation}</Typography>
-        <Typography>Destination: {formData.destination}</Typography>
+        {/* Véhicule */}
+        <Box sx={{ mb: 2 }}>
+          <Typography 
+            variant="h6" 
+            sx={{ 
+              color: '#1a237e',
+              borderBottom: '2px solid #1a237e',
+              pb: 0.5,
+              mb: 1,
+              fontSize: '1.1rem'
+            }}
+          >
+            Véhicule
+          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Numéro d'immatriculation:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.numeroImmatriculation}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Marque:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.marqueVehicule}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Type:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.typeVehicule}</Typography>
+            </Grid>
+          </Grid>
+        </Box>
 
-        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-          Kilométrage et prix
-        </Typography>
-        <Typography>Kilométrage de départ: {formData.kmDepart} km</Typography>
-        <Typography>Kilométrage d'arrivée: {formData.kmArrivee} km</Typography>
-        <Typography>Prix par jour: {formData.prixJour} €</Typography>
-        <Typography>Prix par km: {formData.prixKm} €</Typography>
+        {/* Détails de la location */}
+        <Box sx={{ mb: 2 }}>
+          <Typography 
+            variant="h6" 
+            sx={{ 
+              color: '#1a237e',
+              borderBottom: '2px solid #1a237e',
+              pb: 0.5,
+              mb: 1,
+              fontSize: '1.1rem'
+            }}
+          >
+            Détails de la location
+          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Date et heure de départ:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formatDate(formData.dateDepart)} à {formatTime(formData.heureDepart)}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Date et heure de retour:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formatDate(formData.dateRetour)} à {formatTime(formData.heureRetour)}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Lieu de livraison:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.lieuLivraison}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Lieu de récupération:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.lieuRecuperation}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Destination:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.destination}</Typography>
+            </Grid>
+          </Grid>
+        </Box>
 
+        {/* Kilométrage et prix */}
+        <Box sx={{ mb: 2 }}>
+          <Typography 
+            variant="h6" 
+            sx={{ 
+              color: '#1a237e',
+              borderBottom: '2px solid #1a237e',
+              pb: 0.5,
+              mb: 1,
+              fontSize: '1.1rem'
+            }}
+          >
+            Kilométrage et prix
+          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Kilométrage de départ:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.kmDepart} km</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Kilométrage d'arrivée:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.kmArrivee} km</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Prix par jour:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.prixJour.toLocaleString('fr-FR')} FCFA</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Prix par km:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.prixKm.toLocaleString('fr-FR')} FCFA</Typography>
+            </Grid>
+          </Grid>
+        </Box>
+
+        {/* Conducteur additionnel */}
         {formData.conducteurAdditionnel && (
-          <>
-            <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+          <Box sx={{ mb: 2 }}>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#1a237e',
+                borderBottom: '2px solid #1a237e',
+                pb: 0.5,
+                mb: 1,
+                fontSize: '1.1rem'
+              }}
+            >
               Conducteur additionnel
             </Typography>
-            <Typography>Nom: {formData.conducteurAdditionnel}</Typography>
-            <Typography>Coordonnées: {formData.coordonneesConducteur}</Typography>
-          </>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={6}>
+                <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Nom:</Typography>
+                <Typography sx={{ fontSize: '0.9rem' }}>{formData.conducteurAdditionnel}</Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Coordonnées:</Typography>
+                <Typography sx={{ fontSize: '0.9rem' }}>{formData.coordonneesConducteur}</Typography>
+              </Grid>
+            </Grid>
+          </Box>
         )}
 
-        <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-          Paiement
-        </Typography>
-        <Typography>Mode de paiement: {formData.modePaiement}</Typography>
-        <Typography>Net à payer: {calculateTotal()} €</Typography>
-        <Typography>Caution: {formData.caution} €</Typography>
-        <Typography>Carburant: {formData.carburant}</Typography>
+        {/* Paiement */}
+        <Box sx={{ mb: 2 }}>
+          <Typography 
+            variant="h6" 
+            sx={{ 
+              color: '#1a237e',
+              borderBottom: '2px solid #1a237e',
+              pb: 0.5,
+              mb: 1,
+              fontSize: '1.1rem'
+            }}
+          >
+            Paiement
+          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Mode de paiement:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.modePaiement}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Net à payer:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{calculateTotal().toLocaleString('fr-FR')} FCFA</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Caution:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.caution.toLocaleString('fr-FR')} FCFA</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Carburant:</Typography>
+              <Typography sx={{ fontSize: '0.9rem' }}>{formData.carburant}</Typography>
+            </Grid>
+          </Grid>
+        </Box>
 
-        <Box sx={{ mt: 4, borderTop: '1px solid black', pt: 2 }}>
-          <Typography>Signature du locataire:</Typography>
-          <Box sx={{ height: 100 }} />
-          <Typography>Signature du loueur:</Typography>
-          <Box sx={{ height: 100 }} />
+        {/* Signatures */}
+        <Box sx={{ mt: 3, borderTop: '1px solid #ccc', pt: 2 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', mb: 1, fontSize: '0.9rem' }}>Signature du locataire:</Typography>
+              <Box sx={{ height: 60, borderBottom: '1px dashed #666' }} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography sx={{ fontWeight: 'bold', mb: 1, fontSize: '0.9rem' }}>Signature du loueur:</Typography>
+              <Box sx={{ height: 60, borderBottom: '1px dashed #666' }} />
+            </Grid>
+          </Grid>
+        </Box>
+
+        {/* Date du contrat */}
+        <Box sx={{ mt: 2, textAlign: 'center' }}>
+          <Typography sx={{ color: '#666', fontSize: '0.9rem' }}>
+            Fait à _________________, le {formatDate(new Date())}
+          </Typography>
         </Box>
       </Box>
 
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-        <Button variant="contained" color="primary" onClick={() => toPDF()}>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={() => toPDF()}
+          sx={{ 
+            px: 4,
+            py: 1.5,
+            fontSize: '1.1rem'
+          }}
+        >
           Télécharger le PDF
         </Button>
       </Box>

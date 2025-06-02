@@ -142,18 +142,7 @@ const FacturationForm = () => {
                 Informations personnelles
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                id="nom"
-                name="nom"
-                label="Nom"
-                value={formik.values.nom}
-                onChange={formik.handleChange}
-                error={formik.touched.nom && Boolean(formik.errors.nom)}
-                helperText={formik.touched.nom && formik.errors.nom}
-              />
-            </Grid>
+            
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -164,6 +153,18 @@ const FacturationForm = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.prenom && Boolean(formik.errors.prenom)}
                 helperText={formik.touched.prenom && formik.errors.prenom}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="nom"
+                name="nom"
+                label="Nom"
+                value={formik.values.nom}
+                onChange={formik.handleChange}
+                error={formik.touched.nom && Boolean(formik.errors.nom)}
+                helperText={formik.touched.nom && formik.errors.nom}
               />
             </Grid>
             <Grid item xs={12}>

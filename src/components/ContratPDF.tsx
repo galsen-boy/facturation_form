@@ -355,6 +355,208 @@ const ContratPDF: React.FC<ContratPDFProps> = ({ formData }) => {
             Fait à _________________, le {formatDate(new Date())}
           </Typography>
         </Box>
+
+        {/* Conditions Générales */}
+        <Box sx={{ mt: 4, pageBreakBefore: 'always' }}>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              fontWeight: 'bold',
+              color: '#1a237e',
+              mb: 2,
+              fontSize: '1.5rem',
+              textAlign: 'center'
+            }}
+          >
+            CONDITIONS GÉNÉRALES
+          </Typography>
+
+          <Box sx={{ mb: 2 }}>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#1a237e',
+                borderBottom: '2px solid #1a237e',
+                pb: 0.5,
+                mb: 1,
+                fontSize: '1.1rem'
+              }}
+            >
+              ARTICLE 1 : CONDITIONS À REMPLIR POUR UN VÉHICULE
+            </Typography>
+            <Typography sx={{ fontSize: '0.9rem', mb: 1 }}>
+              Sauf exception indiquée ci-après. Tout conducteur doit être âgé d'au moins 21 ans et être titulaire d'un permis de
+              conduire en cours de validité et correspondant à la catégorie de véhicule souhaitée. Depuis au moins 1 AN. Il doit livrer
+              la photocopie de sa carte d'identité, passeport, carte bancaire ou chèque et une caution fixée par IMO AUTOMOBILE à
+              titre de garantie.
+            </Typography>
+          </Box>
+
+          <Box sx={{ mb: 2 }}>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#1a237e',
+                borderBottom: '2px solid #1a237e',
+                pb: 0.5,
+                mb: 1,
+                fontSize: '1.1rem'
+              }}
+            >
+              ARTICLE 2 : TITULAIRE DU CONTRAT DE LOCATION ET CONDUCTEUR AUTORISÉ
+            </Typography>
+            <Typography sx={{ fontSize: '0.9rem', mb: 1 }}>
+              Le nom du locataire indiqué sur le contrat de location est celui du conducteur principal qui doit être présent lors de la
+              signature du contrat de location et à qui sont facturés les frais liés à la livraison. Vous pouvez autoriser d'autres
+              conducteurs sur le contrat en communiquant leurs noms au contracteur additionnel. En cas de dommage causé au
+              véhicule lors de sa conduite par un conducteur non-indiqué sur le contrat, le client sera entièrement responsable. Et
+              vous devez indemniser IMO AUTOMOBILE de l'intégralité des dommages subis par le véhicule et d'une amende de 500
+              000 F CFA (Cinq Cent Mille Francs CFA) représentant les frais d'immobilisations.
+            </Typography>
+          </Box>
+
+          <Box sx={{ mb: 2 }}>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#1a237e',
+                borderBottom: '2px solid #1a237e',
+                pb: 0.5,
+                mb: 1,
+                fontSize: '1.1rem'
+              }}
+            >
+              ARTICLE 3 : ÉTAT DU VÉHICULE
+            </Typography>
+            <Typography sx={{ fontSize: '0.9rem', mb: 1 }}>
+              Le véhicule est livré à son état d'entretien général, avec le carburant. Le locataire aura à sa charge la consommation de
+              carburant pendant la location. Le remplissage du réservoir lors de la restitution du véhicule au même niveau de
+              carburant fourni à début de la location.
+            </Typography>
+          </Box>
+
+          <Box sx={{ mb: 2 }}>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#1a237e',
+                borderBottom: '2px solid #1a237e',
+                pb: 0.5,
+                mb: 1,
+                fontSize: '1.1rem'
+              }}
+            >
+              ARTICLE 4 : CONDUITE
+            </Typography>
+            <Typography sx={{ fontSize: '0.9rem', mb: 1 }}>
+              Vous êtes le gardien juridique du véhicule à compter de la livraison, vous en êtes dès lors responsable. Vous vous
+              engagez à :
+            </Typography>
+            <Typography sx={{ fontSize: '0.9rem', mb: 1, pl: 2 }}>
+              1. Conduire un véhicule en bon père de famille.<br />
+              2. Respecter scrupuleusement le code de la route.<br />
+              3. Utiliser le véhicule sur des routes carrossables avec une mauvaise appréciation du gabarit du véhicule, circulation en
+              sens interdit, excès de vitesse, refus de priorité, stationnement interdit, surcharge du véhicule, conduite en état
+              d'ivresse, etc.<br />
+              4. Il est formellement interdit d'utiliser le véhicule à des fins commerciales, de transport de personnes (ex taxi) de
+              marchandises (hors contrat signé), ou d'apprentissage à la conduite.<br />
+              5. Il est interdit d'utiliser le véhicule pour les courses ou compétitions sportives automobiles (ou les essais) ou en
+              sous-location.<br />
+              6. Il est strictement interdit sous l'influence des spiritueux ou de narcotiques, ou de drogues ou stupéfiants non prescrits
+              médicalement.<br /><br />
+            </Typography>
+          </Box>
+
+          <Box sx={{ mb: 2 }}>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#1a237e',
+                borderBottom: '2px solid #1a237e',
+                pb: 0.5,
+                mb: 1,
+                fontSize: '1.1rem'
+              }}
+            >
+              ARTICLE 5 : SÉCURITÉ
+            </Typography>
+            <Typography sx={{ fontSize: '0.9rem', mb: 1 }}>
+              Vous vous engagez à respecter les conditions de sécurité fixées par la réglementation, en particulier la capacité
+              maximale spécifique à chaque véhicule quant au nombre d'occupants et/ou au poids des bagages ou marchandises
+              transportés (charge utile s'agissant des véhicules utilitaires).
+            </Typography>
+            <Typography sx={{ fontSize: '0.9rem', mb: 1 }}>
+              Au cours de la location et tous les 5.000 kilomètres parcourus, vous engagez à faire les contrôles d'usage du véhicule
+              (niveau d'eau, niveau d'huile moteur ou ad blue ...) de 1.000 km pour les véhicules de tourisme/au-delà de 500 km pour
+              les véhicules utilitaires, sans quoi des pénalités vous seront facturées.
+            </Typography>
+          </Box>
+
+          <Box sx={{ mb: 2 }}>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#1a237e',
+                borderBottom: '2px solid #1a237e',
+                pb: 0.5,
+                mb: 1,
+                fontSize: '1.1rem'
+              }}
+            >
+              ARTICLE 6 : PANNES ACCIDENTS ET VOLS
+            </Typography>
+            <Typography sx={{ fontSize: '0.9rem', mb: 1 }}>
+              En cas de panne du véhicule nécessitant des réparations immédiates ou urgentes avant de faire procéder à toute
+              réparation (y compris s'agissant des pneumatiques) prenez contact avec le service client. Le locataire est tenu au
+              paiement de toute réparation s'avérant nécessaire au cours de la location. Les diagnostics mécaniques, électriques et
+              autres seront effectués par nos partenaires et les facturations seront payées par le client.
+            </Typography>
+            <Typography sx={{ fontSize: '0.9rem', mb: 1 }}>
+              Les constats d'accident de la circulation doivent mentionner le bailleur après avoir fait dresser au besoin à ses frais tous
+              procès-verbaux de Police ou de Gendarmerie.
+            </Typography>
+            <Typography sx={{ fontSize: '0.9rem', mb: 1 }}>
+              En cas de panne, le véhicule reste sous la garde du client sauf retour en agence. Le client supportera toutes les
+              réparations dues à l'accident facturable par le représentant tant concessionnaire ou le mandataire du véhicule. En cas
+              de vol, la plainte et la déclaration doivent être faites immédiatement. Le client sera entièrement tenu responsable et devra
+              rembourser IMO AUTOMOBILE intégralement sous un délai fixé par la direction.
+            </Typography>
+          </Box>
+
+          <Box sx={{ mb: 2 }}>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: '#1a237e',
+                borderBottom: '2px solid #1a237e',
+                pb: 0.5,
+                mb: 1,
+                fontSize: '1.1rem'
+              }}
+            >
+              ARTICLE 7 : INDEMNITÉS DE RETARD
+            </Typography>
+            <Typography sx={{ fontSize: '0.9rem', mb: 1 }}>
+              Le client doit remettre la voiture à l'heure mentionnée sur le contrat une marge de 60 minutes lui est accordée.
+              Expiré ce délai le client devra indemniser IMO AUTOMOBILE du retard comblé en payant un montant de 250 francs
+              CFA par minute.
+            </Typography>
+          </Box>
+
+          {/* Signatures pour les conditions générales */}
+          <Box sx={{ mt: 3, borderTop: '1px solid #ccc', pt: 2 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Typography sx={{ fontWeight: 'bold', mb: 1, fontSize: '0.9rem' }}>Signature du locataire:</Typography>
+                <Box sx={{ height: 60, borderBottom: '1px dashed #666' }} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography sx={{ fontWeight: 'bold', mb: 1, fontSize: '0.9rem' }}>Signature du loueur:</Typography>
+                <Box sx={{ height: 60, borderBottom: '1px dashed #666' }} />
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
       </Box>
 
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>

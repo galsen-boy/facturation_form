@@ -14,39 +14,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { fr } from 'date-fns/locale';
-import ContratPDF from './ContratPDF';
-
-interface FormData {
-  nom: string;
-  prenom: string;
-  coordonnees: string;
-  dateNaissance: Date | null;
-  lieuNaissance: string;
-  adresse: string;
-  profession: string;
-  numeroCNI: string;
-  numeroPermis: string;
-  numeroImmatriculation: string;
-  marqueVehicule: string;
-  typeVehicule: string;
-  dateDepart: Date | null;
-  heureDepart: Date | null;
-  dateRetour: Date | null;
-  heureRetour: Date | null;
-  lieuLivraison: string;
-  lieuRecuperation: string;
-  destination: string;
-  kmDepart: number;
-  kmArrivee: number;
-  prixJour: number;
-  prixKm: number;
-  conducteurAdditionnel: string;
-  coordonneesConducteur: string;
-  modePaiement: string;
-  netAPayer: number;
-  caution: number;
-  carburant: string;
-}
+import ContratPDF, { FormData } from './ContratPDF';
 
 const validationSchema = yup.object({
   nom: yup.string().required('Le nom est requis'),
@@ -55,7 +23,6 @@ const validationSchema = yup.object({
   dateNaissance: yup.date().required('La date de naissance est requise'),
   lieuNaissance: yup.string().required('Le lieu de naissance est requis'),
   adresse: yup.string().required('L\'adresse est requise'),
-  profession: yup.string().required('La profession est requise'),
   numeroCNI: yup.string().required('Le numéro CNI est requis'),
   numeroPermis: yup.string().required('Le numéro de permis est requis'),
   numeroImmatriculation: yup.string().required('Le numéro d\'immatriculation est requis'),
@@ -75,9 +42,7 @@ const validationSchema = yup.object({
   lieuRecuperation: yup.string().required('Le lieu de récupération est requis'),
   destination: yup.string().required('La destination est requise'),
   kmDepart: yup.number().required('Le kilométrage de départ est requis'),
-  kmArrivee: yup.number().required('Le kilométrage d\'arrivée est requis'),
   prixJour: yup.number().required('Le prix par jour est requis'),
-  prixKm: yup.number().required('Le prix par km est requis'),
   conducteurAdditionnel: yup.string(),
   coordonneesConducteur: yup.string(),
   modePaiement: yup.string().required('Le mode de paiement est requis'),
@@ -98,12 +63,11 @@ const FacturationForm = () => {
       dateNaissance: null,
       lieuNaissance: '',
       adresse: '',
-      profession: '',
       numeroCNI: '',
       numeroPermis: '',
       numeroImmatriculation: '',
       marqueVehicule: '',
-      typeVehicule: '',
+      typeVehicule: 'SUV',
       dateDepart: null,
       heureDepart: null,
       dateRetour: null,
@@ -112,9 +76,7 @@ const FacturationForm = () => {
       lieuRecuperation: '',
       destination: '',
       kmDepart: 0,
-      kmArrivee: 0,
       prixJour: 0,
-      prixKm: 0,
       conducteurAdditionnel: '',
       coordonneesConducteur: '',
       modePaiement: '',
@@ -217,18 +179,6 @@ const FacturationForm = () => {
                 helperText={formik.touched.adresse && formik.errors.adresse}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                id="profession"
-                name="profession"
-                label="Profession"
-                value={formik.values.profession}
-                onChange={formik.handleChange}
-                error={formik.touched.profession && Boolean(formik.errors.profession)}
-                helperText={formik.touched.profession && formik.errors.profession}
-              />
-            </Grid>
 
             {/* Documents */}
             <Grid item xs={12}>
@@ -294,6 +244,7 @@ const FacturationForm = () => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
+                select
                 id="typeVehicule"
                 name="typeVehicule"
                 label="Type de véhicule"
@@ -301,7 +252,10 @@ const FacturationForm = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.typeVehicule && Boolean(formik.errors.typeVehicule)}
                 helperText={formik.touched.typeVehicule && formik.errors.typeVehicule}
-              />
+              >
+                <MenuItem value="SUV">SUV</MenuItem>
+                <MenuItem value="Berline">Berline</MenuItem>
+              </TextField>
             </Grid>
 
             {/* Location */}
@@ -426,19 +380,6 @@ const FacturationForm = () => {
               <TextField
                 fullWidth
                 type="number"
-                id="kmArrivee"
-                name="kmArrivee"
-                label="Kilométrage d'arrivée"
-                value={formik.values.kmArrivee}
-                onChange={formik.handleChange}
-                error={formik.touched.kmArrivee && Boolean(formik.errors.kmArrivee)}
-                helperText={formik.touched.kmArrivee && formik.errors.kmArrivee}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                type="number"
                 id="prixJour"
                 name="prixJour"
                 label="Prix par jour"
@@ -446,19 +387,6 @@ const FacturationForm = () => {
                 onChange={formik.handleChange}
                 error={formik.touched.prixJour && Boolean(formik.errors.prixJour)}
                 helperText={formik.touched.prixJour && formik.errors.prixJour}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                type="number"
-                id="prixKm"
-                name="prixKm"
-                label="Prix par km"
-                value={formik.values.prixKm}
-                onChange={formik.handleChange}
-                error={formik.touched.prixKm && Boolean(formik.errors.prixKm)}
-                helperText={formik.touched.prixKm && formik.errors.prixKm}
               />
             </Grid>
 
@@ -514,7 +442,6 @@ const FacturationForm = () => {
                 <MenuItem value="especes">Espèces</MenuItem>
                 <MenuItem value="Wave">Wave</MenuItem>
                 <MenuItem value="Orange Money">Orange Money</MenuItem>
-                <MenuItem value="carte">Carte bancaire</MenuItem>
                 <MenuItem value="virement">Virement</MenuItem>
               </TextField>
             </Grid>

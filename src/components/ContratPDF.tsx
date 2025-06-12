@@ -4,19 +4,18 @@ import { Box, Button, Typography, Divider, Grid } from '@mui/material';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
-interface FormData {
+export interface FormData {
   nom: string;
   prenom: string;
   coordonnees: string;
   dateNaissance: Date | null;
   lieuNaissance: string;
   adresse: string;
-  profession: string;
   numeroCNI: string;
   numeroPermis: string;
   numeroImmatriculation: string;
   marqueVehicule: string;
-  typeVehicule: string;
+  typeVehicule: 'SUV' | 'Berline';
   dateDepart: Date | null;
   heureDepart: Date | null;
   dateRetour: Date | null;
@@ -25,9 +24,7 @@ interface FormData {
   lieuRecuperation: string;
   destination: string;
   kmDepart: number;
-  kmArrivee: number;
   prixJour: number;
-  prixKm: number;
   conducteurAdditionnel: string;
   coordonneesConducteur: string;
   modePaiement: string;
@@ -58,8 +55,7 @@ const ContratPDF: React.FC<ContratPDFProps> = ({ formData }) => {
     const days = Math.ceil(
       (formData.dateRetour.getTime() - formData.dateDepart.getTime()) / (1000 * 60 * 60 * 24)
     );
-    const km = formData.kmArrivee - formData.kmDepart;
-    return days * formData.prixJour + km * formData.prixKm;
+    return days * formData.prixJour;
   };
 
   return (
@@ -137,10 +133,6 @@ const ContratPDF: React.FC<ContratPDFProps> = ({ formData }) => {
             <Grid item xs={12} sm={6}>
               <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Adresse:</Typography>
               <Typography sx={{ fontSize: '0.9rem' }}>{formData.adresse}</Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Profession:</Typography>
-              <Typography sx={{ fontSize: '0.9rem' }}>{formData.profession}</Typography>
             </Grid>
           </Grid>
         </Box>
@@ -259,16 +251,8 @@ const ContratPDF: React.FC<ContratPDFProps> = ({ formData }) => {
               <Typography sx={{ fontSize: '0.9rem' }}>{formData.kmDepart} km</Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Kilométrage d'arrivée:</Typography>
-              <Typography sx={{ fontSize: '0.9rem' }}>{formData.kmArrivee} km</Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
               <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Prix par jour:</Typography>
               <Typography sx={{ fontSize: '0.9rem' }}>{formData.prixJour.toLocaleString('fr-FR')} FCFA</Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography sx={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Prix par km:</Typography>
-              <Typography sx={{ fontSize: '0.9rem' }}>{formData.prixKm.toLocaleString('fr-FR')} FCFA</Typography>
             </Grid>
           </Grid>
         </Box>

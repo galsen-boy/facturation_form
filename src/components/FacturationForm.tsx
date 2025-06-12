@@ -27,7 +27,7 @@ const validationSchema = yup.object({
   numeroPermis: yup.string().required('Le numéro de permis est requis'),
   numeroImmatriculation: yup.string().required('Le numéro d\'immatriculation est requis'),
   marqueVehicule: yup.string().required('La marque du véhicule est requise'),
-  typeVehicule: yup.string().required('Le type de véhicule est requis'),
+  typeVehicule: yup.string().oneOf(['SUV', 'Berline']).required('Le type de véhicule est requis'),
   dateDepart: yup.date().required('La date de départ est requise'),
   heureDepart: yup.date().required('L\'heure de départ est requise'),
   dateRetour: yup.date()
@@ -67,7 +67,7 @@ const FacturationForm = () => {
       numeroPermis: '',
       numeroImmatriculation: '',
       marqueVehicule: '',
-      typeVehicule: 'SUV',
+      typeVehicule: 'SUV' as const,
       dateDepart: null,
       heureDepart: null,
       dateRetour: null,

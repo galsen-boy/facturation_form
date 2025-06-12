@@ -86,7 +86,10 @@ const FacturationForm = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      setFormData(values);
+      setFormData({
+        ...values,
+        typeVehicule: values.typeVehicule as 'SUV' | 'Berline'
+      });
       setShowPDF(true);
     },
   });
